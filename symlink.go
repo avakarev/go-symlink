@@ -81,8 +81,8 @@ func (sym *Symlink) Unlink() error {
 }
 
 // New returns new Symlink value
-func New(s string, t string) *Symlink {
-	return &Symlink{
+func New(s string, t string) Symlink {
+	return Symlink{
 		Source: NewSource(s),
 		Target: NewTarget(t),
 	}
