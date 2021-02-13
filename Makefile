@@ -22,3 +22,9 @@ test:
 	@echo ">> Running tests..."
 	@go test -v -race ./...
 .PHONY: test
+
+setup-ci:
+	@go get -u github.com/mgechev/revive
+	@go get -u github.com/securego/gosec/v2/cmd/gosec
+
+ci: lint vet sec test
