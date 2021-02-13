@@ -13,43 +13,43 @@ type Symlink struct {
 }
 
 // IsLinked check whether target linked to the given source
-func (l Symlink) IsLinked() bool {
-	return l.Target.Exists && l.Target.Link == l.Source.Path
+func (sym Symlink) IsLinked() bool {
+	return sym.Target.Exists && sym.Target.Link == sym.Source.Path
 }
 
-func (l *Symlink) Read() error {
-	l.read = true
-	if err := l.Source.Read(); err != nil {
+func (sym *Symlink) Read() error {
+	sym.read = true
+	if err := sym.Source.Read(); err != nil {
 		return err
 	}
-	if err := l.Target.Read(); err != nil {
+	if err := sym.Target.Read(); err != nil {
 		return err
 	}
-	return l.Validate()
+	return sym.Validate()
 }
 
 // Validate check whether target linked to the given source
-func (l *Symlink) Validate() error {
-	if !l.read {
-		if err := l.Read(); err != nil {
+func (sym *Symlink) Validate() error {
+	if !sym.read {
+		if err := sym.Read(); err != nil {
 			return err
 		}
 	}
-	if l.Source.Exists && l.Target.Exists && l.Target.Link != l.Source.Path {
+	if sym.Source.Exists && sym.Target.Exists && sym.Target.Link != sym.Source.Path {
 		return ErrTargetMismatch
 	}
 	return nil
 }
 
 // Link creates symlink
-func (l *Symlink) Link() error {
-	if err := l.Validate(); err != nil {
+func (sym *Symlink) Link() error {
+	if err := sym.Validate(); err != nil {
 		if !errors.Is(err, ErrTargetNotExist) {
 			return err
 		}
 	}
 
-	if err := os.Symlink(l.Source.Path, l.Target.Path); err != nil {
+	if err := os.Symlink(sym.Source.Path, sym.Target.Path); err != nil {
 		if errors.Is(err, os.ErrExist) {
 			return ErrTargetExist
 		}
@@ -60,11 +60,11 @@ func (l *Symlink) Link() error {
 }
 
 // Unlink deletes symlink (only target, source file/dir stays)
-func (l *Symlink) Unlink() error {
-	if err := l.Validate(); err != nil {
+func (sym *Symlink) Unlink() error {
+	if err := sym.Validate(); err != nil {
 		return err
 	}
-	if err := os.Remove(l.Target.Path); err != nil {
+	if err := os.Remove(sym.Target.Path); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return ErrTargetNotExist
 		}
