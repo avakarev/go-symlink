@@ -32,7 +32,7 @@ func (t *Target) Path() string {
 	return t.path
 }
 
-// Exists returns target existance flag
+// Exists returns target existence flag
 func (t *Target) Exists() bool {
 	return t.exists
 }
