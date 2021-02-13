@@ -21,7 +21,7 @@ func (s *Source) Path() string {
 	return s.path
 }
 
-// Exists returns source existance flag
+// Exists returns source existence flag
 func (s *Source) Exists() bool {
 	return s.exists
 }
