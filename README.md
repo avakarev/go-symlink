@@ -1,5 +1,7 @@
 # symlink
 
+[![CI Status](https://img.shields.io/github/workflow/status/avakarev/go-symlink/Go%20CI%20Workflow/master?longCache=tru&label=CI%20Status&logo=github%20actions&logoColor=fff)](https://github.com/avakarev/go-symlink/actions?query=branch%3Amaster+workflow%3A%22Go+CI+Workflow%22)
+
 > Tiny Go library to manipulate symlinks
 
 ## Usage
