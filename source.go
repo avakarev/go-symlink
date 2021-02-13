@@ -12,29 +12,39 @@ var (
 
 // Source represents Symlink's source
 type Source struct {
-	Path   string
-	Exists bool
+	path   string
+	exists bool
+}
+
+// Path returns source path
+func (s *Source) Path() string {
+	return s.path
+}
+
+// Exists returns source existance flag
+func (s *Source) Exists() bool {
+	return s.exists
 }
 
 // Read reads the actual file attributes from the file system
 func (s *Source) Read() error {
-	s.Exists = false
+	s.exists = false
 
-	if _, err := os.Lstat(s.Path); err != nil {
+	if _, err := os.Lstat(s.path); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return ErrSourceNotExist
 		}
 		return err
 	}
 
-	s.Exists = true
+	s.exists = true
 	return nil
 }
 
 // NewSource returns new Source value
 func NewSource(path string) *Source {
 	return &Source{
-		Path: path,
+		path: path,
 	}
 }
 

@@ -12,10 +12,10 @@ func TestNew(t *testing.T) {
 	target := testutil.FixturePath("home", ".rc")
 	sym := symlink.New(source, target)
 
-	testutil.Diff(false, sym.Source.Exists, t)
-	testutil.Diff(source, sym.Source.Path, t)
-	testutil.Diff(false, sym.Target.Exists, t)
-	testutil.Diff(target, sym.Target.Path, t)
+	testutil.Diff(false, sym.Source.Exists(), t)
+	testutil.Diff(source, sym.Source.Path(), t)
+	testutil.Diff(false, sym.Target.Exists(), t)
+	testutil.Diff(target, sym.Target.Path(), t)
 	testutil.Diff(false, sym.IsLinked(), t)
 }
 
@@ -27,10 +27,10 @@ func TestReadOnSucess(t *testing.T) {
 	err := sym.Read()
 
 	testutil.NoErr(err, t)
-	testutil.Diff(true, sym.Source.Exists, t)
-	testutil.Diff(source, sym.Source.Path, t)
-	testutil.Diff(true, sym.Target.Exists, t)
-	testutil.Diff(target, sym.Target.Path, t)
+	testutil.Diff(true, sym.Source.Exists(), t)
+	testutil.Diff(source, sym.Source.Path(), t)
+	testutil.Diff(true, sym.Target.Exists(), t)
+	testutil.Diff(target, sym.Target.Path(), t)
 	testutil.Diff(true, sym.IsLinked(), t)
 }
 
@@ -106,10 +106,10 @@ func TestLinkOnSucess(t *testing.T) {
 	err := sym.Link()
 
 	testutil.NoErr(err, t)
-	testutil.Diff(true, sym.Source.Exists, t)
-	testutil.Diff(source, sym.Source.Path, t)
-	testutil.Diff(true, sym.Target.Exists, t)
-	testutil.Diff(target, sym.Target.Path, t)
+	testutil.Diff(true, sym.Source.Exists(), t)
+	testutil.Diff(source, sym.Source.Path(), t)
+	testutil.Diff(true, sym.Target.Exists(), t)
+	testutil.Diff(target, sym.Target.Path(), t)
 	testutil.Diff(true, sym.IsLinked(), t)
 }
 
@@ -121,9 +121,9 @@ func TestUnlinkOnSucess(t *testing.T) {
 	err := sym.Unlink()
 
 	testutil.NoErr(err, t)
-	testutil.Diff(true, sym.Source.Exists, t)
-	testutil.Diff(source, sym.Source.Path, t)
-	testutil.Diff(false, sym.Target.Exists, t)
-	testutil.Diff(target, sym.Target.Path, t)
+	testutil.Diff(true, sym.Source.Exists(), t)
+	testutil.Diff(source, sym.Source.Path(), t)
+	testutil.Diff(false, sym.Target.Exists(), t)
+	testutil.Diff(target, sym.Target.Path(), t)
 	testutil.Diff(false, sym.IsLinked(), t)
 }

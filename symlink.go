@@ -14,7 +14,7 @@ type Symlink struct {
 
 // IsLinked check whether target linked to the given source
 func (sym Symlink) IsLinked() bool {
-	return sym.Target.Exists && sym.Target.Link == sym.Source.Path
+	return sym.Target.exists && sym.Target.link == sym.Source.path
 }
 
 func (sym *Symlink) Read() error {
@@ -35,7 +35,7 @@ func (sym *Symlink) Validate() error {
 			return err
 		}
 	}
-	if sym.Source.Exists && sym.Target.Exists && sym.Target.Link != sym.Source.Path {
+	if sym.Source.exists && sym.Target.exists && sym.Target.link != sym.Source.path {
 		return ErrTargetMismatch
 	}
 	return nil
@@ -49,15 +49,15 @@ func (sym *Symlink) Link() error {
 		}
 	}
 
-	if err := os.Symlink(sym.Source.Path, sym.Target.Path); err != nil {
+	if err := os.Symlink(sym.Source.path, sym.Target.path); err != nil {
 		if errors.Is(err, os.ErrExist) {
 			return ErrTargetExist
 		}
 		return err
 	}
 
-	sym.Target.Exists = true
-	sym.Target.Link = sym.Source.Path
+	sym.Target.exists = true
+	sym.Target.link = sym.Source.path
 
 	return nil
 }
@@ -67,15 +67,15 @@ func (sym *Symlink) Unlink() error {
 	if err := sym.Validate(); err != nil {
 		return err
 	}
-	if err := os.Remove(sym.Target.Path); err != nil {
+	if err := os.Remove(sym.Target.path); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return ErrTargetNotExist
 		}
 		return err
 	}
 
-	sym.Target.Exists = false
-	sym.Target.Link = ""
+	sym.Target.exists = false
+	sym.Target.link = ""
 
 	return nil
 }

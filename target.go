@@ -22,17 +22,32 @@ var (
 
 // Target represents Symlink's target
 type Target struct {
-	Path   string
-	Exists bool
-	Link   string
+	path   string
+	exists bool
+	link   string
+}
+
+// Path returns target path
+func (t *Target) Path() string {
+	return t.path
+}
+
+// Exists returns target existance flag
+func (t *Target) Exists() bool {
+	return t.exists
+}
+
+// Link returns target link
+func (t *Target) Link() string {
+	return t.link
 }
 
 // Read reads the actual file attributes from the file system
 func (t *Target) Read() error {
-	t.Exists = false
-	t.Link = ""
+	t.exists = false
+	t.link = ""
 
-	source, err := filepath.EvalSymlinks(t.Path)
+	source, err := filepath.EvalSymlinks(t.path)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return ErrTargetNotExist
@@ -40,20 +55,20 @@ func (t *Target) Read() error {
 		return err
 	}
 
-	t.Exists = true
+	t.exists = true
 
-	if t.Path == source {
+	if t.path == source {
 		return ErrTargetNotLink
 	}
 
-	t.Link = source
+	t.link = source
 	return nil
 }
 
 // NewTarget returns new Target value
 func NewTarget(path string) *Target {
 	return &Target{
-		Path: path,
+		path: path,
 	}
 }
 
