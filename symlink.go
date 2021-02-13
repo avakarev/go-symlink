@@ -25,11 +25,11 @@ func (sym *Symlink) Read() error {
 	if err := sym.Target.Read(); err != nil {
 		return err
 	}
-	return sym.Validate()
+	return sym.validate()
 }
 
 // Validate check whether target linked to the given source
-func (sym *Symlink) Validate() error {
+func (sym *Symlink) validate() error {
 	if !sym.read {
 		if err := sym.Read(); err != nil {
 			return err
@@ -43,7 +43,7 @@ func (sym *Symlink) Validate() error {
 
 // Link creates symlink
 func (sym *Symlink) Link() error {
-	if err := sym.Validate(); err != nil {
+	if err := sym.validate(); err != nil {
 		if !errors.Is(err, ErrTargetNotExist) {
 			return err
 		}
@@ -64,7 +64,7 @@ func (sym *Symlink) Link() error {
 
 // Unlink deletes symlink (only target, source file/dir stays)
 func (sym *Symlink) Unlink() error {
-	if err := sym.Validate(); err != nil {
+	if err := sym.validate(); err != nil {
 		return err
 	}
 	if err := os.Remove(sym.Target.path); err != nil {
