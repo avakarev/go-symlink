@@ -56,6 +56,9 @@ func (sym *Symlink) Link() error {
 		return err
 	}
 
+	sym.Target.Exists = true
+	sym.Target.Link = sym.Source.Path
+
 	return nil
 }
 
@@ -70,6 +73,10 @@ func (sym *Symlink) Unlink() error {
 		}
 		return err
 	}
+
+	sym.Target.Exists = false
+	sym.Target.Link = ""
+
 	return nil
 }
 
