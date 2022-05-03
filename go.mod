@@ -2,4 +2,4 @@ module github.com/avakarev/go-symlink
 
 go 1.15
 
-require github.com/google/go-cmp v0.5.4
+require github.com/google/go-cmp v0.5.8
