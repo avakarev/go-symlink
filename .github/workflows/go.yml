@@ -1,17 +1,17 @@
-name: Go CI Workflow
+name: ci
 on: [push]
-jobs:
 
-  ci:
-    name: Run CI on Go ${{ matrix.go }}
+jobs:
+  test:
+    name: using go ${{ matrix.go }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         go: [1.17, 1.18]
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v3
-      with:
-        go-version: ${{ matrix.go }}
-    - name: Lint & Test
-      run: make setup-ci ci
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Lint & Test
+        run: make setup-ci ci
